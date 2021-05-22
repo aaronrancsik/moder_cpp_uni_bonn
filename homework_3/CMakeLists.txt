@@ -15,6 +15,7 @@ option(ENABLE_COVERAGE "Enable coverage reporting" OFF)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+
 # Export commands.
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
@@ -25,6 +26,8 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 # Import cmake modules
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
 # Main 
 add_executable(hw3 ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
