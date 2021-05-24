@@ -3,13 +3,12 @@
 #include <iostream>
 #include <vector>
 
-#include "../include/algo.hpp"
-#include "../include/ipb.hpp"
+#include "homework_4.h"
 
 int main() {
   using std::cout;
   using std::endl;
-
+  using namespace ipb;
   const int n1 = 6;
   const int n2 = 5;
   const int n3 = 15;
@@ -24,42 +23,42 @@ int main() {
   cout << "Name: " << vec.name() << endl;
   cout << "Size: " << vec.size() << endl;
 
-  auto ret = algo::accumulate(vec);
+  auto ret = ipb::accumulate(vec);
   cout << "Sum: " << ret << endl;
 
   cout << "Original: " << endl;
-  algo::print(vec);
+  print(vec);
 
   cout << "clamp 2-6: " << endl;
   const int min = 2;
   const int max = 6;
-  algo::clamp(vec, min, max);
-  algo::print(vec);
+  clamp(vec, min, max);
+  print(vec);
 
   cout << std::boolalpha;
-  cout << "All even? " << algo::all_even(vec) << endl;
+  cout << "All even? " << all_even(vec) << endl;
 
   const int num = 6;
-  cout << "Count 6: " << algo::count(vec, num) << endl;
+  cout << "Count 6: " << count(vec, num) << endl;
 
-  cout << "Find 4? " << algo::find(vec, 4) << endl;
+  cout << "Find 4? " << find(vec, 4) << endl;
 
   cout << "To upper" << endl;
-  algo::toupper(vec);
-  algo::print(vec);
+  toupper(vec);
+  print(vec);
 
   cout << "Sort" << endl;
-  algo::sort(vec);
-  algo::print(vec);
+  sort(vec);
+  print(vec);
 
   cout << "Rotate" << endl;
-  algo::rotate(vec);
-  algo::print(vec);
+  rotate(vec, 2);
+  print(vec);
 
   cout << "Fill with -99" << endl;
   const int num2 = -99;
-  algo::fill(vec, num2);
-  algo::print(vec);
+  fill(vec, num2);
+  print(vec);
 
   cout << "YAY!! This was a really hard homework... I've learnd a lots of "
           "things.."
