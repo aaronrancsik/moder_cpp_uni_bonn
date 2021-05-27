@@ -6,10 +6,9 @@
 #define CONVERT_DATASET_HPP_
 
 #include <filesystem>
+#include <opencv2/core/mat.hpp>
 #include <string>
 #include <vector>
-
-#include <opencv2/core/mat.hpp>
 
 namespace ipb::serialization::sifts {
 /**
