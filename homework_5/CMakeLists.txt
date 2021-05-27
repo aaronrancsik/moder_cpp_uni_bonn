@@ -35,9 +35,9 @@ target_link_libraries(main convert_dataset)
 
 
 # tests
-# set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-# include(TestCoverage)
-# include(ClangFormat)
-# include(StaticAnalyzers)
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+include(TestCoverage)
+include(ClangFormat)
+include(StaticAnalyzers)
 
-# subdirs(${CMAKE_SOURCE_DIR}/tests)
+subdirs(${CMAKE_SOURCE_DIR}/tests)

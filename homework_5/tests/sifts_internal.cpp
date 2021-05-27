@@ -6,19 +6,18 @@
 
 #include "sifts_internal.hpp"
 
+#include <opencv2/core.hpp>
+#include <opencv2/imgcodecs.hpp>
+#include <opencv2/xfeatures2d.hpp>
 #include <string>
 #include <tuple>
 #include <vector>
 
-#include <opencv2/core.hpp>
-#include <opencv2/imgcodecs.hpp>
-#include <opencv2/xfeatures2d.hpp>
-
 using std::string;
 using std::vector;
 
-using cv::xfeatures2d::SiftDescriptorExtractor;
-using cv::xfeatures2d::SiftFeatureDetector;
+using cv::SiftDescriptorExtractor;
+using cv::SiftFeatureDetector;
 
 std::tuple<cv::Mat, cv::Mat> ComputeSifts(const string& fileName) {
   const cv::Mat kInput = cv::imread(fileName, cv::IMREAD_GRAYSCALE);
