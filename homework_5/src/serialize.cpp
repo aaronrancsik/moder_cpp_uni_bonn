@@ -4,15 +4,13 @@
 #include <fstream>
 #include <iostream>
 
-namespace ipb::serialization {}
 void ipb::serialization::Serialize(const cv::Mat &m,
                                    const std::string &filename) {
   auto path = std::filesystem::path(filename);
 
-  if (path.extension().string() != ".png") {
-    return;
-  }
-  auto out_path = path.replace_extension("bin");
+  //  std::cout << path.extension().string() << "   ops  \n";
+  //  return;
+  auto out_path = path.replace_extension(".bin");
 
   std::ofstream file(out_path, std::ios_base::out | std::ios_base::binary);
 
