@@ -25,7 +25,7 @@ ImageData ReadFromPgm(const std::string& file_name) {
   int rows = 0;
   int cols = 0;
   int max_val = 0;
-  std::vector<uint8_t> data;
+  std::vector<int> data;
   in >> type >> rows >> cols >> max_val;
 
   data.resize(rows * cols);
@@ -36,7 +36,7 @@ ImageData ReadFromPgm(const std::string& file_name) {
       data[r * cols + c] = byte;
     }
   }
-  return {rows, cols, static_cast<uint8_t>(max_val), data};
+  return {rows, cols, static_cast<int>(max_val), data};
 }
 
 bool WriteToPgm(const ImageData& image_data, const std::string& file_name) {

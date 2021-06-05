@@ -13,10 +13,10 @@ Image::Image() = default;
 Image::Image(int rows, int cols) : rows_{rows}, cols_{cols} {}
 int Image::cols() const { return cols_; }
 int Image::rows() const { return rows_; }
-uint8_t Image::at(int row, int col) const {
+int Image::at(int row, int col) const {
   return data_.at(this->rows_ * row + col);
 }
-uint8_t& Image::at(int row, int col) {
+int& Image::at(int row, int col) {
   return this->data_.at(this->rows_ * row + col);
 }
 
@@ -89,7 +89,7 @@ float Image::mapping(size_t numb, size_t max) {
 }
 
 void Image::UpScale(int scale) {
-  std::vector<uint8_t> new_data(data_.size() * scale * scale, 0);
+  std::vector<int> new_data(data_.size() * scale * scale, 0);
   for (size_t s = 0; s < data_.size(); ++s) {
     size_t col_current = (s % rows_);
     size_t row_current = (s / cols_);
@@ -105,8 +105,8 @@ void Image::UpScale(int scale) {
   data_ = new_data;
 }
 
-void Image::createBigPixel(size_t scale, std::vector<uint8_t>& new_data,
-                           size_t col, size_t row, uint8_t pixel_value) const {
+void Image::createBigPixel(size_t scale, std::vector<int>& new_data,
+                           size_t col, size_t row, int pixel_value) const {
   for (size_t c = 0; c < scale; ++c) {
     for (size_t r = 0; r < scale; ++r) {
       size_t r_plus = r * cols_ * scale;
@@ -117,7 +117,7 @@ void Image::createBigPixel(size_t scale, std::vector<uint8_t>& new_data,
 }
 
 void Image::DownScale(int scale) {
-  std::vector<uint8_t> new_date(data_.size() / (scale * scale));
+  std::vector<int> new_date(data_.size() / (scale * scale));
   for (size_t s = 0; s < new_date.size(); ++s) {
     size_t col_scaled = (s % rows_) * scale;
     size_t row_scaled = (s / cols_) * scale * scale;
