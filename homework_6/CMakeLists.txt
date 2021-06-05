@@ -23,10 +23,10 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/io_tools/)
 add_executable(main src/main.cpp)
 
 add_library(image src/Image.cpp)
-target_link_libraries(main image)
-
 add_library(io_tools io_tools/io_tools.cpp)
-target_link_libraries(main io_tools)
+target_link_libraries(image io_tools)
+
+target_link_libraries(main image)
 # find_package(OpenCV 4 REQUIRED)
 # include_directories(${OpenCV_INCLUDE_DIRS})
 
@@ -38,9 +38,9 @@ target_link_libraries(main io_tools)
 
 
 # tests
-# set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-# include(TestCoverage)
-# include(ClangFormat)
-# include(StaticAnalyzers)
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+include(TestCoverage)
+include(ClangFormat)
+include(StaticAnalyzers)
 
-#  subdirs(${CMAKE_SOURCE_DIR}/tests)
+subdirs(${CMAKE_SOURCE_DIR}/tests)
