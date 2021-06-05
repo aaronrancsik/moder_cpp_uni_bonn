@@ -10,7 +10,9 @@
 namespace igg {
 
 Image::Image() = default;
-Image::Image(int rows, int cols) : rows_{rows}, cols_{cols} {}
+Image::Image(int rows, int cols) : rows_{rows}, cols_{cols} {
+  data_ = std::vector<int>(rows*cols,0);
+}
 int Image::cols() const { return cols_; }
 int Image::rows() const { return rows_; }
 int Image::at(int row, int col) const {
