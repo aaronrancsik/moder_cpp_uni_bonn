@@ -27,6 +27,11 @@ class Image {
   uint8_t max_val_ = 0;
   std::vector<uint8_t> data_;
   [[nodiscard]] static float mapping(size_t numb, size_t max);
+  [[nodiscard]] std::vector<size_t> createCompleteHistogram() const;
+  static std::vector<int> createReducedHistogram(
+      int bins, size_t bin_size, const std::vector<size_t>& full_histogram);
+  [[nodiscard]] static std::vector<float> createNormalizedHistogram(
+      size_t fsize, const std::vector<int>& reduced_histogram);
 };
 
 }  // namespace igg

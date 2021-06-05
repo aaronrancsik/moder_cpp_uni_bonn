@@ -38,31 +38,49 @@ void Image::WriteToPgm(const std::string& file_name) {
 
 
 std::vector<float> Image::ComputeHistogram(int bins) const {
+  // TODO maybe an exception would be better..
   if (bins > max_val_ + 1) {
     return std::vector<float>();
   }
+  // end 
+  const std::vector<size_t> full_histogram = createCompleteHistogram();
+  size_t bin_size = full_histogram.size() / bins;
+  auto reduced_histogram =
+      createReducedHistogram(bins, bin_size, full_histogram);
+  auto fsize = full_histogram.size();
+  auto normalized_histogram =
+      createNormalizedHistogram(fsize, reduced_histogram);
+  return normalized_histogram;
+}
 
-  std::vector<int> full_histogram(max_val_ + 1, 0);
+std::vector<size_t> Image::createCompleteHistogram() const {
+  std::vector<size_t> complete_histogram(max_val_ + 1, 0);
   for (auto pixel : data_) {
-    ++full_histogram.at(pixel);
+    ++complete_histogram.at(pixel);
   }
+  return complete_histogram;
+}
 
-  size_t chunk_size = full_histogram.size() / bins;
-  std::vector<int> histogram(bins, 0);
-
-  for (size_t i = 0; i < histogram.size(); ++i) {
-    for (size_t j = 0; j < static_cast<size_t>(chunk_size); ++j) {
-      histogram.at(i) += full_histogram.at((i * chunk_size) + j);
+std::vector<int> Image::createReducedHistogram(
+    int bins, size_t bin_size, const std::vector<size_t>& full_histogram) {
+  std::vector<int> reduced_histogram(bins, 0);
+  for (size_t i = 0; i < reduced_histogram.size(); ++i) {
+    for (size_t j = 0; j < static_cast<size_t>(bin_size); ++j) {
+      reduced_histogram.at(i) += full_histogram.at((i * bin_size) + j);
     }
   }
-  histogram.at(bins - 1) += full_histogram.back();
+  reduced_histogram.at(bins - 1) += full_histogram.back();
+  return reduced_histogram;
+}
 
+std::vector<float> Image::createNormalizedHistogram(
+    size_t fsize, const std::vector<int>& reduced_histogram) {
   std::vector<float> normalized_histogram;
-  auto fsize = full_histogram.size();
-  auto populate_normal = [&normalized_histogram,fsize](const int& n) {
-    normalized_histogram.push_back(mapping(n,fsize));
+  auto populate_normal = [&normalized_histogram, fsize](const int& n) {
+    normalized_histogram.push_back(mapping(n, fsize));
   };
-  std::for_each(histogram.cbegin(), histogram.cend(), populate_normal);
+  std::for_each(reduced_histogram.cbegin(), reduced_histogram.cend(),
+                populate_normal);
   return normalized_histogram;
 }
 
