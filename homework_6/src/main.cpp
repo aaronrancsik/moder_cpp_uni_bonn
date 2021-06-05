@@ -14,7 +14,16 @@ int main() {
   for(auto r : res){
     cout << r << ", ";
   }
-  cout << endl;
+  // i.UpScale(3);
+  i.DownScale(2);
+  i.WriteToPgm("test.pgm");
 
+  // i.FillFromPgm("./test.pgm");
+  // res =i.ComputeHistogram(resolution);
+  // for(auto r : res){
+    // cout << r << ", ";
+  // }
+//
+  
   return EXIT_SUCCESS;
 }

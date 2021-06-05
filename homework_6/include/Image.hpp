@@ -21,6 +21,9 @@ class Image {
 
   [[nodiscard]] std::vector<float> ComputeHistogram(int bins) const;
 
+  void DownScale(int scale);
+  void UpScale(int scale);
+
  private:
   int rows_ = 0;
   int cols_ = 0;
@@ -32,6 +35,8 @@ class Image {
       int bins, size_t bin_size, const std::vector<size_t>& full_histogram);
   [[nodiscard]] static std::vector<float> createNormalizedHistogram(
       size_t fsize, const std::vector<int>& reduced_histogram);
+  void createBigPixel(size_t scale, std::vector<uint8_t>& new_data, size_t col,
+                      size_t row, uint8_t pixel_value) const;
 };
 
 }  // namespace igg

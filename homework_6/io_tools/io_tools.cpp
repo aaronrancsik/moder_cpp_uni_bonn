@@ -50,8 +50,8 @@ bool WriteToPgm(const ImageData& image_data, const std::string& file_name) {
       << (int)image_data.max_val << std::endl;
   for (int r = 0; r < image_data.rows; ++r) {
     for (int c = 0; c < image_data.cols; ++c) {
-      // FIXME something smelly going on here; fixed with C style casts, I have no idea why is it working now..
-      out << (unsigned int)image_data.data[r * image_data.cols + c] << "  ";
+      // FIXME I have no idea why the cast is necessary 
+      out << static_cast<unsigned int>(image_data.data.at(r * image_data.cols + c)) << "  ";
     }
     out << std::endl;
   }

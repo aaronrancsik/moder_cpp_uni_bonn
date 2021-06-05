@@ -36,13 +36,12 @@ void Image::WriteToPgm(const std::string& file_name) {
   igg::io_tools::WriteToPgm({rows_, cols_, max_val_, data_}, file_name);
 }
 
-
 std::vector<float> Image::ComputeHistogram(int bins) const {
   // TODO maybe an exception would be better..
   if (bins > max_val_ + 1) {
     return std::vector<float>();
   }
-  // end 
+  // end
   const std::vector<size_t> full_histogram = createCompleteHistogram();
   size_t bin_size = full_histogram.size() / bins;
   auto reduced_histogram =
@@ -87,6 +86,46 @@ std::vector<float> Image::createNormalizedHistogram(
 float Image::mapping(size_t numb, size_t max) {
   float scale = 1.0F / static_cast<float>(max);
   return numb * scale;
+}
+
+void Image::UpScale(int scale) {
+  std::vector<uint8_t> new_data(data_.size() * scale * scale, 0);
+  for (size_t s = 0; s < data_.size(); ++s) {
+    size_t col_current = (s % rows_);
+    size_t row_current = (s / cols_);
+
+    size_t col_scaled = (col_current * scale);
+    size_t row_scaled = (row_current * cols_ * scale * scale);
+
+    auto current_pixel = data_.at(s);
+    createBigPixel(scale, new_data, col_scaled, row_scaled, current_pixel);
+  }
+  rows_ *= scale;
+  cols_ *= scale;
+  data_ = new_data;
+}
+
+void Image::createBigPixel(size_t scale, std::vector<uint8_t>& new_data,
+                           size_t col, size_t row, uint8_t pixel_value) const {
+  for (size_t c = 0; c < scale; ++c) {
+    for (size_t r = 0; r < scale; ++r) {
+      size_t r_plus = r * cols_ * scale;
+      size_t c_plus = c;
+      new_data.at(col + row + c_plus + r_plus) = pixel_value;
+    }
+  }
+}
+
+void Image::DownScale(int scale) {
+  std::vector<uint8_t> new_date(data_.size() / (scale * scale));
+  for (size_t s = 0; s < new_date.size(); ++s) {
+    size_t col_scaled = (s % rows_) * scale;
+    size_t row_scaled = (s / cols_) * scale * scale;
+    new_date.at(s) = data_.at(rows_ * row_scaled + col_scaled);
+  }
+  rows_ /= scale;
+  cols_ /= scale;
+  data_ = new_date;
 }
 
 }  // namespace igg
