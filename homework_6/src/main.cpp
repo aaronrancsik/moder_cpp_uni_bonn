@@ -7,9 +7,9 @@ using std::cout;
 
 int main() {
   igg::Image i = igg::Image();
-  i.FillFromPgm("../data/lena.ascii.pgm");
+  i.FillFromPgm("../data/dummy_file.pgm");
   const int resolution = 10;
-  auto res =i.ComputeHistogram(resolution);
+  auto res =i.ComputeHistogram(10);
   for(auto r : res){
     cout << r << ", ";
   }

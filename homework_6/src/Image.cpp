@@ -11,13 +11,11 @@ namespace igg {
 
 Image::Image() = default;
 Image::Image(int rows, int cols) : rows_{rows}, cols_{cols} {
-  data_ = std::vector<int>(rows*cols,0);
+  data_ = std::vector<int>(rows * cols, 0);
 }
 int Image::cols() const { return cols_; }
 int Image::rows() const { return rows_; }
-int Image::at(int row, int col) const {
-  return data_.at(cols_ * row + col);
-}
+int Image::at(int row, int col) const { return data_.at(cols_ * row + col); }
 int& Image::at(int row, int col) {
   return this->data_.at(this->rows_ * row + col);
 }
@@ -39,16 +37,15 @@ void Image::WriteToPgm(const std::string& file_name) {
 }
 
 std::vector<float> Image::ComputeHistogram(int bins) const {
-  // TODO maybe an exception would be better..
-  if (bins > max_val_ + 1) {
-    return std::vector<float>();
-  }
-  // end
   const std::vector<size_t> full_histogram = createCompleteHistogram();
   size_t bin_size = full_histogram.size() / bins;
+  for (auto a : full_histogram) {
+    std::cout << a << ", ";
+  }
+  std::cout << "\n";
   auto reduced_histogram =
       createReducedHistogram(bins, bin_size, full_histogram);
-  auto fsize = full_histogram.size();
+  auto fsize = data_.size();
   auto normalized_histogram =
       createNormalizedHistogram(fsize, reduced_histogram);
   return normalized_histogram;
@@ -65,12 +62,16 @@ std::vector<size_t> Image::createCompleteHistogram() const {
 std::vector<int> Image::createReducedHistogram(
     int bins, size_t bin_size, const std::vector<size_t>& full_histogram) {
   std::vector<int> reduced_histogram(bins, 0);
+  std::cout << "bin_size: " << bin_size << "\n";
   for (size_t i = 0; i < reduced_histogram.size(); ++i) {
     for (size_t j = 0; j < static_cast<size_t>(bin_size); ++j) {
       reduced_histogram.at(i) += full_histogram.at((i * bin_size) + j);
     }
   }
-  reduced_histogram.at(bins - 1) += full_histogram.back();
+  for (size_t i = 0; i < full_histogram.size() % bins; ++i) {
+    reduced_histogram.back() +=
+        full_histogram.at(full_histogram.size() - 1 - i);
+  }
   return reduced_histogram;
 }
 
@@ -107,8 +108,8 @@ void Image::UpScale(int scale) {
   data_ = new_data;
 }
 
-void Image::createBigPixel(size_t scale, std::vector<int>& new_data,
-                           size_t col, size_t row, int pixel_value) const {
+void Image::createBigPixel(size_t scale, std::vector<int>& new_data, size_t col,
+                           size_t row, int pixel_value) const {
   for (size_t c = 0; c < scale; ++c) {
     for (size_t r = 0; r < scale; ++r) {
       size_t r_plus = r * cols_ * scale;
