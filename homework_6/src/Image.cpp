@@ -16,7 +16,7 @@ Image::Image(int rows, int cols) : rows_{rows}, cols_{cols} {
 int Image::cols() const { return cols_; }
 int Image::rows() const { return rows_; }
 int Image::at(int row, int col) const {
-  return data_.at(this->rows_ * row + col);
+  return data_.at(cols_ * row + col);
 }
 int& Image::at(int row, int col) {
   return this->data_.at(this->rows_ * row + col);
