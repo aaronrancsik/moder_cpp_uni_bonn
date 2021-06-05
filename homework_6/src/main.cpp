@@ -4,7 +4,6 @@
 #include "Image.hpp"
 
 using std::cout;
-using std::endl;
 
 int main() {
   igg::Image i = igg::Image();
