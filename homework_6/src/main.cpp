@@ -10,11 +10,11 @@ int main() {
   i.FillFromPgm("../data/dummy_file.pgm");
   const int resolution = 10;
   auto res =i.ComputeHistogram(10);
-  for(auto r : res){
-    cout << r << ", ";
-  }
+  // for(auto r : res){
+    // cout << r << ", ";
+  // }
   // i.UpScale(3);
-  i.DownScale(2);
+  i.DownScale(3);
   i.WriteToPgm("test.pgm");
 
   // i.FillFromPgm("./test.pgm");

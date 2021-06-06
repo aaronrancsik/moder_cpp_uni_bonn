@@ -39,10 +39,6 @@ void Image::WriteToPgm(const std::string& file_name) {
 std::vector<float> Image::ComputeHistogram(int bins) const {
   const std::vector<size_t> full_histogram = createCompleteHistogram();
   size_t bin_size = full_histogram.size() / bins;
-  for (auto a : full_histogram) {
-    std::cout << a << ", ";
-  }
-  std::cout << "\n";
   auto reduced_histogram =
       createReducedHistogram(bins, bin_size, full_histogram);
   auto fsize = data_.size();
@@ -62,7 +58,6 @@ std::vector<size_t> Image::createCompleteHistogram() const {
 std::vector<int> Image::createReducedHistogram(
     int bins, size_t bin_size, const std::vector<size_t>& full_histogram) {
   std::vector<int> reduced_histogram(bins, 0);
-  std::cout << "bin_size: " << bin_size << "\n";
   for (size_t i = 0; i < reduced_histogram.size(); ++i) {
     for (size_t j = 0; j < static_cast<size_t>(bin_size); ++j) {
       reduced_histogram.at(i) += full_histogram.at((i * bin_size) + j);
@@ -120,11 +115,16 @@ void Image::createBigPixel(size_t scale, std::vector<int>& new_data, size_t col,
 }
 
 void Image::DownScale(int scale) {
-  std::vector<int> new_date(data_.size() / (scale * scale));
-  for (size_t s = 0; s < new_date.size(); ++s) {
-    size_t col_scaled = (s % rows_) * scale;
-    size_t row_scaled = (s / cols_) * scale * scale;
-    new_date.at(s) = data_.at(rows_ * row_scaled + col_scaled);
+  std::vector<int> new_date;
+  new_date.reserve( data_.size() / (scale*scale) );
+  for (size_t s = 0; s < data_.size(); ++s) {
+    size_t col = (s % rows_);
+    size_t row = (s / cols_);
+    if (col % scale == 0) {
+      if (row % scale == 0) {
+        new_date.push_back(at(row,col));
+      }
+    }
   }
   rows_ /= scale;
   cols_ /= scale;
